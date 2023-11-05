@@ -34,11 +34,7 @@ function getAllConnectedClients(roomId) {
 const server = http.createServer(app);
 const io = new Server(server);
 io.on("connection", (socket) => {
-  console.log("------------------a user connected-------------------------");
-  console.log(socket.id);
-
   socket.on(ACTIONS.JOIN, ({ roomId, username }) => {
-    console.log(`Socket User name:${username}`);
     userSocketMap[socket.id] = username;
     socket.join(roomId);
     const clients = getAllConnectedClients(roomId);
@@ -52,12 +48,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
-    console.log(code);
     socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
   });
 
   socket.on(ACTIONS.CURSOR_LOCATION_CHANGE, ({ roomId, username, coords }) => {
-    console.log(`${username};;: ${coords.x},,,,${coords.y}`);
     socket
       .in(roomId)
       .emit(ACTIONS.CURSOR_LOCATION_CHANGE, { username, coords });
@@ -76,10 +70,6 @@ io.on("connection", (socket) => {
       });
     });
     delete userSocketMap[socket.id];
-    console.log(
-      "------------------a user disconnected-------------------------"
-    );
-    console.log(userSocketMap);
     socket.leave();
   });
 });
