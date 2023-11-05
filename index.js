@@ -56,6 +56,13 @@ io.on("connection", (socket) => {
     socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
   });
 
+  socket.on(ACTIONS.CURSOR_LOCATION_CHANGE, ({ roomId, username, coords }) => {
+    console.log(`${username};;: ${coords.x},,,,${coords.y}`);
+    socket
+      .in(roomId)
+      .emit(ACTIONS.CURSOR_LOCATION_CHANGE, { username, coords });
+  });
+
   socket.on(ACTIONS.SYNC_CODE, ({ socketId, code }) => {
     io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
   });
