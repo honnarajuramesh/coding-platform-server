@@ -7,7 +7,7 @@ module.exports = () => {
   };
 
   try {
-    mongoose.connect(process.env.DB, connectionParams)
+    mongoose.connect(process.env.DB, connectionParams);
   } catch (error) {
     console.log(error);
     // process.exit();

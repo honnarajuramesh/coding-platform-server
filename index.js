@@ -7,12 +7,6 @@ const authRoutes = require("./routes/auth");
 const http = require("http");
 const { Server } = require("socket.io");
 const ACTIONS = require("./actions");
-const mongoose = require("mongoose");
-
-const connectionParams = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
 
 //creating express app
 const app = express();
@@ -85,12 +79,4 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 
 const port = process.env.PORT || 8080;
-try {
-  mongoose.connect(process.env.DB, connectionParams).then(() => {
-    console.log("MongoDB connected");
-    server.listen(port, () => console.log(`Listening on port ${port}`));
-  });
-} catch (error) {
-  console.log(error);
-  // process.exit();
-}
+server.listen(port, () => console.log(`Listening on port ${port}`));
