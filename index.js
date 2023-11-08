@@ -4,7 +4,6 @@ const cors = require("cors");
 const connectDB = require("./db");
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
-const bookRoutes = require("./routes/book");
 const http = require("http");
 const { Server } = require("socket.io");
 const ACTIONS = require("./actions");
