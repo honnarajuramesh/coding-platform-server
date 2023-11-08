@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./db");
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
+const bookRoutes = require("./routes/book");
 const http = require("http");
 const { Server } = require("socket.io");
 const ACTIONS = require("./actions");
@@ -51,6 +52,11 @@ io.on("connection", (socket) => {
     socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
   });
 
+  socket.on(ACTIONS.LANG_CHANGE, ({ roomId, language }) => {
+    console.log(roomId);
+    socket.in(roomId).emit(ACTIONS.LANG_CHANGE, { language });
+  });
+
   socket.on(ACTIONS.CURSOR_LOCATION_CHANGE, ({ roomId, username, coords }) => {
     socket
       .in(roomId)
@@ -62,6 +68,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnecting", () => {
+    console.log("Lvg");
     const rooms = [...socket.rooms];
     rooms.forEach((roomId) => {
       socket.in(roomId).emit(ACTIONS.DISCONNECTED, {
